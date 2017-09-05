@@ -9,11 +9,13 @@
           crossorigin="anonymous" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
           integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-          crossorigin=""/>
+          crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.62.0/L.Control.Locate.min.css"
           integrity="sha256-mvCapu8voeqbM31gwIzYjSiq79jiT4LdIEQSmjyRNoE="
           crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.12/leaflet.draw.css"
+          integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8="
+          crossorigin="anonymous" />
     <style>
         body {
             padding: 0;
@@ -29,11 +31,13 @@
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-            crossorigin=""></script>
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.62.0/L.Control.Locate.min.js"
             integrity="sha256-mx2qkONLiyGovXkDR+LJKyI7jiw9iuhxCNokVAnNmKs="
             crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.12/leaflet.draw.js"
+            integrity="sha256-gI2Y6ySMCz83g+AlqL24REslHKBuw73jaYfsZb5C3Ac="
+            crossorigin="anonymous"></script>
     <script>
         L.TileLayer.Common = L.TileLayer.extend({initialize: function(options){L.TileLayer.prototype.initialize.call(this, this.url, options);}});
         L.TileLayer['osm'] = L.TileLayer.Common.extend({url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', options:{attribution: '\u0026copy\u003B \u003Ca href\u003D\u0022http://openstreetmap.org\u0022\u003EOpenStreetMap\u003C/a\u003E contributors, \u003Ca href\u003D\u0022http://creativecommons.org/licenses/by\u002Dsa/2.0/\u0022\u003ECC\u002DBY\u002DSA\u003C/a\u003E'}});
