@@ -4,7 +4,15 @@
     <title>Map</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.62.0/L.Control.Locate.min.css"
+          integrity="sha256-mvCapu8voeqbM31gwIzYjSiq79jiT4LdIEQSmjyRNoE="
+          crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css" />
     <style>
         body {
@@ -19,37 +27,41 @@
 </head>
 <body>
     <div id="map"></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.62.0/L.Control.Locate.min.js"
+            integrity="sha256-mx2qkONLiyGovXkDR+LJKyI7jiw9iuhxCNokVAnNmKs="
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js"></script>
-
     <script>
-        var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>',
-            thunLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+        L.TileLayer.Common = L.TileLayer.extend({initialize: function(options){L.TileLayer.prototype.initialize.call(this, this.url, options);}});
+        L.TileLayer['osm'] = L.TileLayer.Common.extend({url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', options:{attribution: '\u0026copy\u003B \u003Ca href\u003D\u0022http://openstreetmap.org\u0022\u003EOpenStreetMap\u003C/a\u003E contributors, \u003Ca href\u003D\u0022http://creativecommons.org/licenses/by\u002Dsa/2.0/\u0022\u003ECC\u002DBY\u002DSA\u003C/a\u003E'}});
+        L.TileLayer['gmap-street'] = L.TileLayer.Common.extend({url: 'http://mt0.google.com/vt/x\u003D{x}\u0026y\u003D{y}\u0026z\u003D{z}', options:{attribution: '\u0026copy\u003B Google'}});
+        L.TileLayer['gmap-terrain'] = L.TileLayer.Common.extend({url: 'http://mt1.google.com/vt/lyrs\u003Dp\u0026x\u003D{x}\u0026y\u003D{y}\u0026z\u003D{z}', options:{attribution: '\u0026copy\u003B Google'}});
+        L.TileLayer['gmap-sat'] = L.TileLayer.Common.extend({url: 'http://khm1.google.com/kh/v\u003D101\u0026x\u003D{x}\u0026y\u003D{y}\u0026z\u003D{z}', options:{attribution: '\u0026copy\u003B Google'}});
+        L.TileLayer['nokia-street'] = L.TileLayer.Common.extend({url: 'http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/normal.day/{z}/{x}/{y}/256/png8', options:{attribution: '\u0026copy: Nokia'}});
+        L.TileLayer['nokia-sat'] = L.TileLayer.Common.extend({url: 'http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8', options:{attribution: '\u0026copy: Nokia'}});
+        L.TileLayer['norway-topo'] = L.TileLayer.Common.extend({url: 'http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers\u003Dtopo2\u0026zoom\u003D{z}\u0026x\u003D{x}\u0026y\u003D{y}', options:{attribution: ''}});
+        L.TileLayer['finland-topo'] = L.TileLayer.Common.extend({url: 'http://tiles.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.jpg', options:{attribution: '\u0026copy\u003B National Land Survey of Finland'}});
 
-        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            osmAttrib = '&copy; ' + osmLink + ' Contributors',
-            landUrl = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
-            thunAttrib = '&copy; '+osmLink+' Contributors & '+thunLink,
-            perusUrl = 'http://tiles.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.jpg',
-            perusAttrib = '&copy; Karttamateriaali <a href="http://www.maanmittauslaitos.fi/avoindata">Maanmittauslaitos</a>';
+        var baseLayers = {};
+        var defaultLayer = new L.TileLayer['osm'];
 
-        var osmMap = L.tileLayer(osmUrl, {attribution: osmAttrib}),
-            landMap = L.tileLayer(landUrl, {attribution: thunAttrib}),
-            peruskartta = new L.tileLayer(perusUrl, {attribution: perusAttrib});
+        baseLayers["Open Street Map"] = defaultLayer;
+        baseLayers["Google Map Street"] = new L.TileLayer['gmap-street'];
+        baseLayers["Google Map Terrain"] = new L.TileLayer['gmap-terrain'];
+        baseLayers["Google Map Satellite"] = new L.TileLayer['gmap-sat'];
+        baseLayers["Nokia Street"] = new L.TileLayer['nokia-street'];
+        baseLayers["Nokia Satellite"] = new L.TileLayer['nokia-sat'];
+        baseLayers["Norway Topo"] = new L.TileLayer['norway-topo'];
+        baseLayers["Finland Topo"] = new L.TileLayer['finland-topo'];
 
-        var map = L.map('map', {
-                layers: [osmMap] // only add one!
-            })
-            .setView([60.451389, 22.266667], 14);
+        var map = L.map('map').setView([60.451389, 22.266667], 14);
+        map.addLayer(defaultLayer);
+        map.addControl(new L.Control.Layers(baseLayers)
 
-        var baseLayers = {
-            "OSM Mapnik": osmMap,
-            "Landscape": landMap,
-            "Finland Peruskartta": peruskartta
-        };
-
-        L.control.layers(baseLayers).addTo(map);
+        L.control.locate().addTo(map);
 
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
