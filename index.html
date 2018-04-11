@@ -48,7 +48,7 @@
         L.TileLayer['nokia-sat'] = L.TileLayer.Common.extend({url: 'http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8', options:{attribution: '\u0026copy: Nokia'}});
         L.TileLayer['norway-topo'] = L.TileLayer.Common.extend({url: 'http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers\u003Dtopo2\u0026zoom\u003D{z}\u0026x\u003D{x}\u0026y\u003D{y}', options:{attribution: ''}});
         L.TileLayer['finland-topo'] = L.TileLayer.Common.extend({url: 'http://tiles.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.jpg', options:{attribution: '\u0026copy\u003B National Land Survey of Finland'}});
-
+        L.TileLayer['mapant'] = L.TileLayer.Common.extend({url: 'https://wmts.mapant.fi/wmts_EPSG3857.php?z\u003D{z}\u0026x\u003D{x}\u0026y\u003D{y}', options:{attribution: 'MapAnt and National Land Survey of Finland'}});
         var baseLayers = {};
         var defaultLayer = new L.TileLayer['osm'];
 
@@ -60,6 +60,7 @@
         baseLayers["Nokia Satellite"] = new L.TileLayer['nokia-sat'];
         baseLayers["Norway Topo"] = new L.TileLayer['norway-topo'];
         baseLayers["Finland Topo"] = new L.TileLayer['finland-topo'];
+        baseLayers["MapAnt"] = new L.TileLayer['mapant'];
 
         var map = L.map('map').setView([60.451389, 22.266667], 14);
         map.addLayer(defaultLayer);
