@@ -46,7 +46,11 @@
         L.TileLayer['gmap-sat'] = L.TileLayer.Common.extend({url: 'https://mt0.google.com/vt/lyrs\u003Dy\u0026x\u003D{x}\u0026y\u003D{y}\u0026z\u003D{z}', options:{attribution: '\u0026copy\u003B Google'}});
         L.TileLayer['norway-topo'] = L.TileLayer.Common.extend({url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers\u003Dtopo4\u0026zoom\u003D{z}\u0026x\u003D{x}\u0026y\u003D{y}', options:{attribution: ''}});
         L.TileLayer['finland-topo'] = L.TileLayer.Common.extend({url: 'https://tiles.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.jpg', options:{attribution: '\u0026copy\u003B National Land Survey of Finland'}});
-        L.TileLayer['mapant'] = L.TileLayer.Common.extend({url: 'https://wmts.mapant.fi/wmts_EPSG3857.php?z\u003D{z}\u0026x\u003D{x}\u0026y\u003D{y}', options:{attribution: 'MapAnt and National Land Survey of Finland'}});
+        L.TileLayer['mapant-fi'] = L.TileLayer.Common.extend({url: 'https://wmts.mapant.fi/wmts_EPSG3857.php?z\u003D{z}\u0026x\u003D{x}\u0026y\u003D{y}', options:{attribution: 'MapAnt and National Land Survey of Finland'}});
+        L.TileLayer['mapant-es'] = L.tileLayer.wms(
+            'https://mapant.es/mapserv?map=/mapas/geotiff.map&SERVICE=WMS',
+            {layers: 'geotiff', format: 'image/png', version: '1.3.0', transparent: true}
+        );
         var baseLayers = {};
         var defaultLayer = new L.TileLayer['osm'];
 
@@ -56,7 +60,8 @@
         baseLayers["Google Map Satellite"] = new L.TileLayer['gmap-sat'];
         baseLayers["Norway Topo"] = new L.TileLayer['norway-topo'];
         baseLayers["Finland Topo"] = new L.TileLayer['finland-topo'];
-        baseLayers["MapAnt"] = new L.TileLayer['mapant'];
+        baseLayers["Mapant Finland"] = new L.TileLayer['mapant-fi'];
+        baseLayers["Mapant Spain"] = L.TileLayer['mapant-es'];
 
         var map = L.map('map').setView([60.445449406663734,22.7039380443465], 14);
         map.addLayer(defaultLayer);
